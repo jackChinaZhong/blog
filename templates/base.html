@@ -1,0 +1,39 @@
+{%  load staticfiles  %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<link rel="stylesheet" href="/statics/css/bootstrap.min.css">
+<!-- 可选的Bootstrap主题文件（一般不用引入） -->
+<link rel="stylesheet" href="/statics/css/bootstrap-theme.min.css">
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="/statics/js/jquery.min.js"></script>
+    <script src="/statics/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-3">
+		</div>
+		<div class="col-md-6">
+			<ul class="nav nav-tabs">
+                <li >
+                    <a href="{% url 'index' %}">home</a>
+				</li>
+                {% for categroy in categroys %}
+				<li>
+					<a href="{{ categroy.get_absolute_url }}" >{{ categroy.name }}</a>
+				</li>
+                {% endfor %}
+			</ul>
+		</div>
+		<div class="col-md-3">
+		</div>
+	</div>
+</div>
+
+{% block content %}
+
+{% endblock %}
+</body>
+</html>
