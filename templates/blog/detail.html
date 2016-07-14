@@ -1,4 +1,46 @@
 {% extends "base.html" %}
 {% block content %}
-    {{ article.content }}
+    <div class="main_content">
+<div class="block_breadcrumbs">
+<div class="text"><p> 当前位置:</p></div>
+
+	<ul>
+		<li><a href="{% url 'index' %}">首页</a></li>
+		<li><a href="{{ article.categroy.get_absolute_url }}"> {{ article.categroy.name }}</a></li>
+        <li>{{ article.title }}</li>
+	</ul>
+</div>
+<div class="separator" style="height:30px;"></div>
+<article class="block_single_post">
+<div class="f_pic"><a href="#"><img src="/statics/images/pic_blog_post_1.jpg" alt=""></a></div>
+<p class="title"><a href="#">{{ article.title}}</a></p>
+    <div class="info">
+        <div class="date"><p>{{ article.update_at|date:"Y-m-d" }}</p></div>
+        <div class="author"><p>By: <a href="#">John Doe</a></p></div>
+        <div class="r_part">
+            <div class="category"><p>category: <a href="{{ article.categroy.get_absolute_url }}">{{ article.categroy.name }}</a></p></div>
+            <a href="#" class="views">{{ article.clicks }}</a>
+            <a href="#" class="comments">25</a>
+        </div>
+    </div>
+    <div class="content">
+           {{article.content|safe}}
+    </div>
+
+    <div class="line_3" style="margin:4px 0px 23px;"></div>
+
+    <div class="about_author">
+        <h4>博主介绍</h4>
+        <div class="photo"><a href="#"><img src="/statics/images/ava_default_3.jpg" alt=""></a></div>
+        <div class="bio">
+            <p class="name"><a href="#">自强博客</a></p>
+           <p>主要是分享一些自己在学习技术过程中遇到的一些问题</p>
+        </div>
+
+        <div class="clearboth"></div>
+    </div>
+
+    <div class="line_3" style="margin:17px 0px 23px;"></div>
+</article>
+</div>
 {% endblock %}

@@ -1,19 +1,46 @@
 {% extends 'base.html' %}
 {% block content %}
+   {% for  article in articles %}
+    <article class="blog_post">
+        <div class="tail"></div>
+        <div class="f_pic"><a href="content.html"><img src="/statics/images/pic_blog_1_1.jpg" alt="" /></a></div>
 
-    <div class="container-fluid">
-	<div class="row">
-		<div class="col-md-3">
-		</div>
-		<div class="col-md-6">
-			{% for  article in articles %}
-        <div>
-        <a href="{{ article.get_absolute_url }}"> {{ article.title }}</a>
+        <h4 class="title"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h4>
+
+        <div class="info">
+            <div class="date"><p>{{ article.update_at|date:"Y-m-d" }}</p></div>
+            <!--<div class="author"><p>作者: <a href="#">osblog</a></p></div>-->
+            <div class="r_part">
+            <div class="category">
+                    <p class="text">分类:</p>
+                    <ul>
+                        <li><a href="#">{{ article.categroy.name }}</a></li>
+                    </ul>
+            </div>
+
+                <a href="#" class="views">{{ article.clicks }}</a>
+                <a href="#" class="comments">25</a>
+            </div>
         </div>
-    {% endfor %}
-		</div>
-		<div class="col-md-3">
-		</div>
-	</div>
-</div>
+
+        <div class="content">
+            <p>{{ article.content|truncatechars:50|safe }}</p>
+        </div>
+    </article>
+    {% empty %}
+    <h1>暂无文章列表</h1>
+{% endfor %}
+
+
+    <div class="line_2" style="margin:24px 0px 25px;"></div>
+    <div class="block_pager">
+        {% if articles.has_previous %}
+            <a href="?page={{ articles.previous_page_number }}" class="prev">上一页</a>
+        {% endif %}
+
+        {% if articles.has_next %}
+         <a href="?page={{ articles.next_page_number }}" class="next">下一页</a>
+        {% endif %}
+        <div class="clearboth"></div>
+    </div>
 {% endblock %}
