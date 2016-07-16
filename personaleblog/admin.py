@@ -20,6 +20,11 @@ class TagAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     exclude = ('create_at','update_at')
 
+
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('id','article')
+    exclude = ('date',)
+
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
@@ -94,7 +99,7 @@ class MyUserAdmin(UserAdmin):
 
 # Now register the new UserAdmin...
 admin.site.register(MyUser, MyUserAdmin)
-
+admin.site.register(Comment,CommentAdmin)
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(Article,ArticleAdmin)
 admin.site.register(Tag,TagAdmin)

@@ -1,0 +1,10 @@
+<div class="comment">
+    <div class="userpic"><img src="/statics/images/ava_default_1.jpg" /></div>
+    <div class="content">
+        <p class="name">{{ comment.user.get_short_name }}</p>
+        <p class="info"><span class="date">{{ comment.date|date:"Y-m-d H:i" }}</span></p>
+        <p class="text">{{ comment.content }}</p>
+    </div>
+    <div class="clearboth"></div>
+    <div class="line_3"></div>
+</div>

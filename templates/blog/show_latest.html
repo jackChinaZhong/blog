@@ -1,0 +1,27 @@
+<div class="block_popular_posts">
+	<h4>热门文章</h4>
+	{%for article in articles%}
+	<div class="article">
+		<div class="pic">
+			<a href="#" class="w_hover">
+				<img src="/statics/images/pic_popular_post_1.jpg" alt="" />
+				<span></span>
+			</a>
+		</div>
+		<div class="text">
+			<p class="title"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></p>
+			<div class="date"><p>{{ article.date|date:"Y-m-d" }}</p></div>
+			<div class="icons">
+				<ul>
+					<li><a href="#" class="views">{{ article.clicks }}</a></li>
+					<li><a href="#" class="comments">22</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+        {% if not forloop.last %}
+	<div class="line_3"></div>
+        {% endif %}
+	{%endfor%}
+ <div class="line_2"></div>
+</div>

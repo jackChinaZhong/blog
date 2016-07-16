@@ -51,7 +51,6 @@ def golob_setting(request):
         'archives': archive,
     }
 
-
 # 这个是首页
 def index(request):
     articles = Article.objects.filter(is_pass=True)  # 找出发布的文章
@@ -78,10 +77,21 @@ def detail(request, article_id):
         article = Article.objects.get(pk=article_id)
         article.clicks += 1
         article.save()
+        comments=Comment.objects.filter(article_id=article_id)
+        comment_list=[]
+        for comment in comments:
+            for item in comment_list:
+                if not hasattr(item,'child_comment'):
+                    setattr(item,'child_comment',[])
+                if comment.comment_parent==item:
+                    item.child_comment.append(comment)
+                    break
+            if comment.comment_parent==None:
+                comment_list.append(comment)
     except Article.DoesNotExist:
         # 返回一个404页面
         pass
-    return render(request, "blog/detail.html", {'article': article})
+    return render(request, "blog/detail.html", {'article': article,'comments':comment_list})
 
 
 # 通过cartgory_name来获取文章信息，这里应该对nav进行activ处理
@@ -108,7 +118,16 @@ def category(request, category_name):
     }
     return render(request, "blog/index.html", content)
 
-
 @login_required(login_url='/login/')
 def comment(request):
-    pass
+    if request.is_ajax():
+        if request.method=="POST":
+            print request.POST
+            content=request.POST.get('comment',"")
+            article=request.POST.get('articleid',"")
+            if content != "":
+                article = Article.objects.get(pk=article)
+                ct=Comment(content=content,article=article,user=request.user)
+                ct.save()
+                return HttpResponse(render(request,"blog/comment.html",{'comment':ct}))
+    return HttpResponse("FALSE")

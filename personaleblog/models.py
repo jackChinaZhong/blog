@@ -5,6 +5,7 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.urlresolvers import reverse
 from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager
 
 class MyUserManager(BaseUserManager):
@@ -58,7 +59,7 @@ class MyUser(AbstractBaseUser):
 
     def get_short_name(self):
         # The user is identified by their email address
-        return self.email
+        return self.name
 
     def __str__(self):  # __unicode__ on Python 2
         return self.email
@@ -130,7 +131,7 @@ class ArticleManage(models.Manager):
 @python_2_unicode_compatible
 class Article(models.Model):
     title=models.CharField('标题',max_length=20,unique=True)
-    content=RichTextField('正文')
+    content=RichTextUploadingField('正文')
     is_pass=models.BooleanField('是否发布',default=True)
     clicks=models.IntegerField(verbose_name='点击数',default=0)
     create_at=models.DateField('创建时间',auto_now_add=True)
@@ -148,3 +149,17 @@ class Article(models.Model):
     def get_absolute_url(self):
         return reverse('article', args=[self.id, ])
 
+class Comment(models.Model):
+    user=models.ForeignKey(MyUser,verbose_name='用户')
+    date=models.DateTimeField(auto_now=True,verbose_name='评论日期')
+    article=models.ForeignKey(Article,verbose_name='文章')
+    content=models.CharField(max_length=300,verbose_name='评论内容',unique=True)
+    comment_parent=models.ForeignKey('self',blank=True,null=True,verbose_name='父级评论')
+
+    class Meta:
+        verbose_name='评论'
+        verbose_name_plural=verbose_name
+        ordering=['id','date']
+
+    def __unicode__(self):
+        return str(self.id)

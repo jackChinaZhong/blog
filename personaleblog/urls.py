@@ -8,4 +8,5 @@ urlpatterns=[
     url(r'^login/$',loginsafe,name='login'),
     url(r'^logout/$',logoutsafe,name='logout'),
     url(r'^register/$',register,name='register'),
+    url(r'^comment/$',comment,name="comment"),
 ]
